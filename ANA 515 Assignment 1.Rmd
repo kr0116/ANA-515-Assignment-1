@@ -1,0 +1,46 @@
+---
+title: "ANA 515 Assignment 1"
+author: Karthikeyan Rajendran
+date: 2021
+output: 
+html_document:
+  theme:
+    bootswatch: Cyborg 
+---
+
+
+```{r setup, include = FALSE}
+
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+```
+
+```{r, echo = FALSE}
+url <- "https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv"
+gun_deaths <- read_csv(url)
+```
+
+```{r, include = FALSE}
+youth <- gun_deaths %>% 
+  filter(age <= 65)
+```
+
+
+We have data about `r nrow(gun_deaths)` gun deaths Only 
+`r nrow(gun_deaths) - nrow(youth)` age less than or equal to 65 
+The distribution of the remainder is shown
+below:
+
+```{r, echo = FALSE}
+youth %>% 
+  ggplot(aes(age)) + 
+  geom_freqpoly(binwidth = 1)
+```
+
+```{r race-dist, echo = FALSE}
+youth %>% 
+  ggplot(aes(fct_infreq(race) %>% fct_rev())) + geom_bar() +
+  coord_flip() + labs(x= "Victim Race")
+```
+
